@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+
+<head>
+<title>Eddie rocks!</title>
+<style>
+
+div, input, button {
+  font-size: 160px;
+  height: 200px;
+  line-height: 1;
+  text-align: center;
+  width: 100%;
+}
+
+button {
+  margin-bottom: 10px;
+}
+
+</style>
+</head>
+
+<body>
+<div id="status"></div>
+<button>YES</button>
+<button>NO</button>
+<input>
+</body>
+
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script>
+
+var socket = io.connect();
+
+window.onclick = window.onchange = function(e) {
+  if (/button|input/i.test(e.target.tagName)) {
+    var here = e.target.value || e.target.textContent;
+    if (here)
+      socket.emit('change', here);
+  }
+};
+
+socket.on('change', function(here) {
+  document.getElementById('status').textContent = here;
+});
+
+</script>
+
+</html>

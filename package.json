@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "basic-auth": "latest",
+    "express": "latest",
+    "socket.io": "latest"
+  }
+  "description": "for when you're too lazy to walk there...",
+  "name": "iseddiehere",
+  "version": "0.0.1",
+}
