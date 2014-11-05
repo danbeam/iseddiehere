@@ -16,8 +16,7 @@ h1 {
   font-family: sans-serif;
   font-size: 160px;
   font-weight: bold;
-  line-height: 200px;
-  margin: -100px 0 0;
+  line-height: 1;
   position: absolute;
   text-align: center;
   top: 50%;
@@ -32,9 +31,20 @@ h1 {
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script>
 
+function status() {
+  return document.getElementById('status');
+}
+
 io.connect().on('change', function(data) {
-  document.getElementById('status').textContent = data;
+  status().textContent = data;
+  sync();
 });
+
+function sync() {
+  status().style.marginTop = -status().offsetHeight / 2 + 'px';
+}
+
+window.onresize = sync;
 
 </script>
 </body>
