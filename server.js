@@ -11,8 +11,6 @@ function read(file) {
   return fs.readFileSync(file, {encoding: 'utf8'}).trim();
 }
 
-server.listen(80);
-
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/index.html');
 });
@@ -54,5 +52,7 @@ require('socket.io')(server).on('connect', function(socket) {
     console.log(sockets.length, 'connected');
   });
 });
+
+server.listen(80);
 
 })(this);
