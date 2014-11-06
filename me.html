@@ -35,13 +35,14 @@ div {
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script>
 
+var secret = document.cookie.split('secret=')[1];
 var socket = io.connect();
 
 window.onclick = window.onchange = function(e) {
   if (/button|input/i.test(e.target.tagName)) {
     var here = e.target.value || e.target.textContent;
     if (here)
-      socket.emit('change', here);
+      socket.emit(secret, here);
   }
 };
 

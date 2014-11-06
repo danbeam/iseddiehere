@@ -2,6 +2,7 @@
 
 const HERE_FILE = 'here.txt';
 const PASSWORD_FILE = 'password.txt';
+const SECRET_FILE = 'secret.txt';
 
 var app = require('express')();
 var server = require('http').Server(app);
@@ -15,15 +16,18 @@ app.get('/', function(req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
+const secret = read(SECRET_FILE);
+
 function auth(req, res, next) {
   var user = require('basic-auth')(req);
   if (user && user.pass == read(PASSWORD_FILE)) {
+    res.set('Set-Cookie', 'secret=' + secret);
     // TODO: re-generate a nonce here and require it for status changes.
-    return next();
+    next();
+  } else {
+    res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+    res.sendStatus(401);
   }
-
-  res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
-  return res.sendStatus(401);
 }
 
 app.get('/me', auth, function(req, res) {
@@ -40,7 +44,7 @@ require('socket.io')(server).on('connect', function(socket) {
 
   socket.emit('change', global.here);
 
-  socket.on('change', function(here) {
+  socket.on(secret, function(here) {
     console.log('change', here);
     sockets.forEach(function(s) { s.emit('change', here); });
     fs.writeFile(HERE_FILE, here, {encoding: 'utf8'});
