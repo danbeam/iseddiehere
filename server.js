@@ -42,6 +42,14 @@ function defined(arg) {
     file: 'index.html'
   },
   {
+    path: '/app.css',
+    file: 'app.css'
+  },
+  {
+    path: '/app.js',
+    file: 'app.js'
+  },
+  {
     path: '/me',
     file: 'me.html',
     auth: auth
