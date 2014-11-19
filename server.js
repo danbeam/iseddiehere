@@ -12,16 +12,12 @@ function read(file) {
   return fs.readFileSync(file, {encoding: 'utf8'}).trim();
 }
 
-app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/index.html');
-});
-
-const secret = read(SECRET_FILE);
+const SECRET = read(SECRET_FILE);
 
 function auth(req, res, next) {
   var user = require('basic-auth')(req);
   if (user && user.pass == read(PASSWORD_FILE)) {
-    res.set('Set-Cookie', 'secret=' + secret);
+    res.set('Set-Cookie', 'secret=' + SECRET);
     // TODO: re-generate a nonce here and require it for status changes.
     next();
   } else {
@@ -30,8 +26,33 @@ function auth(req, res, next) {
   }
 }
 
-app.get('/me', auth, function(req, res) {
-  res.sendFile(__dirname + '/me.html');
+function createHandler(file) {
+  return function(req, res) {
+    res.sendFile(__dirname + '/' + file);
+  };
+}
+
+function defined(arg) {
+  return arg !== undefined;
+}
+
+[
+  {
+    path: '/',
+    file: 'index.html'
+  },
+  {
+    path: '/me',
+    file: 'me.html',
+    auth: auth
+  },
+  {
+    path: '/icon.png',
+    file: 'icon.png'
+  },
+].forEach(function(route) {
+  var args = [route.path, route.auth, createHandler(route.file)];
+  app.get.apply(app, args.filter(defined));
 });
 
 console.log('here', global.here = read(HERE_FILE));
@@ -44,7 +65,7 @@ require('socket.io')(server).on('connect', function(socket) {
 
   socket.emit('change', global.here);
 
-  socket.on(secret, function(here) {
+  socket.on(SECRET, function(here) {
     console.log('change', here);
     sockets.forEach(function(s) { s.emit('change', here); });
     fs.writeFile(HERE_FILE, here, {encoding: 'utf8'});

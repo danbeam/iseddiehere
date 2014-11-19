@@ -12,6 +12,10 @@ html {
   width: 100%;
 }
 
+body {
+  text-align: center;
+}
+
 h1 {
   font-family: sans-serif;
   font-size: 160px;
@@ -27,6 +31,7 @@ h1 {
 </head>
 
 <body>
+<label><input type="checkbox" id="notify"> Tell me when Eddie gets back</label>
 <h1 id="status"></h1>
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script>
@@ -35,9 +40,49 @@ function status() {
   return document.getElementById('status');
 }
 
+function notifyCheckbox() {
+  return document.getElementById('notify');
+}
+
+function notify(data) {
+  if (!document.hidden)
+    return;
+
+  if (!window.Notification) // feature detect for Notifications
+    return;
+
+  if (window.notification)  // only show 1 notification at a time
+    return;
+
+  if (!notifyCheckbox().checked)
+    return;
+
+  if (status().textContent.trim().toLowerCase() != 'yes')
+    return;
+
+  notification = new Notification("Is Eddie here?", {
+    body: 'YES, Eddie is back.',
+    icon: 'icon.png'
+  });
+
+  setTimeout(hideNotification, 5000);
+}
+
+function hideNotification() {
+  if (window.notification) {
+    notification.close();
+    notification = null;
+  }
+}
+
 io.connect().on('change', function(data) {
+  if (data == status().textContent.trim())
+    return;
+
   status().textContent = data;
   sync();
+
+  setTimeout(notify, 10000);
 });
 
 function sync() {
@@ -45,6 +90,17 @@ function sync() {
 }
 
 window.onresize = sync;
+
+window.onload = function() {
+  notifyCheckbox().checked = /notify=true/.test(document.cookie);
+  notifyCheckbox().onchange = function(e) {
+    if (notifyCheckbox().checked)
+      Notification.requestPermission();
+    document.cookie = 'notify=' + notifyCheckbox().checked;
+  };
+};
+
+window.onbeforeunload = window.onunload = hideNotification;
 
 </script>
 </body>
