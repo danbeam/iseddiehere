@@ -6,8 +6,10 @@ function bind(func, scope) {
 
 var eddie = {
   change: function(e) {
-    if (this.checkbox().checked)
+    if (this.checkbox().checked) {
       Notification.requestPermission();
+      ga('send', 'clicked-notify');
+    }
     this.save();
   },
 
@@ -74,6 +76,7 @@ var eddie = {
       body: 'YES, Eddie is back.',
       icon: 'icon.png'
     });
+    ga('send', 'notified');
 
     this.checkbox().checked = false;
     this.save();
