@@ -39,15 +39,19 @@ function defined(arg) {
 [
   {
     path: '/',
-    file: 'index.html'
+    file: 'index.html',
   },
   {
     path: '/app.css',
-    file: 'app.css'
+    file: 'app.css',
   },
   {
     path: '/app.js',
-    file: 'app.js'
+    file: 'app.js',
+  },
+  {
+    path: '/icon.png',
+    file: 'icon.png',
   },
   {
     path: '/me',
@@ -55,8 +59,8 @@ function defined(arg) {
     auth: auth
   },
   {
-    path: '/icon.png',
-    file: 'icon.png'
+    path: '/robots.txt',
+    file: 'robots.txt',
   },
 ].forEach(function(route) {
   var args = [route.path, route.auth, createHandler(route.file)];

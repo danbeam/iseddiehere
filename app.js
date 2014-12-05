@@ -8,7 +8,7 @@ var eddie = {
   change: function(e) {
     if (this.checkbox().checked) {
       Notification.requestPermission();
-      ga('send', 'clicked-notify');
+      ga('send', 'event', 'notifications', 'checkbox', 'change', this.checkbox().checked);
     }
     this.save();
   },
@@ -76,7 +76,7 @@ var eddie = {
       body: 'YES, Eddie is back.',
       icon: 'icon.png'
     });
-    ga('send', 'notified');
+    ga('send', 'event', 'notifications', 'notification', 'shown');
 
     this.checkbox().checked = false;
     this.save();
