@@ -1,8 +1,6 @@
 (function(global) {
 
 const HERE_FILE = 'here.txt';
-const PASSWORD_FILE = 'password.txt';
-const SECRET_FILE = 'secret.txt';
 
 var app = require('express')();
 var server = require('http').Server(app);
@@ -13,11 +11,11 @@ function read(file) {
   return fs.readFileSync(file, {encoding: 'utf8'}).trim();
 }
 
-const SECRET = read(SECRET_FILE);
+const SECRET = process.env.SECRET_MSG;
 
 function auth(req, res, next) {
   var user = require('basic-auth')(req);
-  if (user && user.pass == read(PASSWORD_FILE)) {
+  if (user && user.pass == process.env.PASS) {
     res.set('Set-Cookie', 'secret=' + SECRET);
     // TODO: re-generate a nonce here and require it for status changes.
     next();
