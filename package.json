@@ -6,5 +6,12 @@
   },
   "description": "for when you're too lazy to walk there...",
   "name": "iseddiehere",
-  "version": "0.0.2"
+  "version": "0.0.2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danbeam/iseddiehere.git"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
 }

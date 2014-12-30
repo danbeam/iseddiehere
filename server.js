@@ -6,6 +6,7 @@ const SECRET_FILE = 'secret.txt';
 
 var app = require('express')();
 var server = require('http').Server(app);
+var port = process.env.PORT || 5000;
 var fs = require('fs');
 
 function read(file) {
@@ -90,6 +91,6 @@ require('socket.io')(server).on('connect', function(socket) {
   });
 });
 
-server.listen(80);
+server.listen(port);
 
 })(this);
