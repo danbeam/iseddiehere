@@ -74,7 +74,7 @@ var eddie = {
 
     this.notification = new Notification("Is Eddie here?", {
       body: 'YES, Eddie is back.',
-      icon: 'icon.png'
+      icon: 'icon/notification-icon.png'
     });
     ga('send', 'event', 'notifications', 'notification', 'shown');
 
