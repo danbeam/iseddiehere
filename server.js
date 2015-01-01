@@ -53,6 +53,34 @@ function defined(arg) {
     file: 'icon.png',
   },
   {
+    path: '/icon-0-75x.png',
+    file: 'icon-0-75x.png',
+  },
+  {
+    path: '/icon-1x.png',
+    file: 'icon-1x.png',
+  },
+  {
+    path: '/icon-1-5x.png',
+    file: 'icon-1-5x.png',
+  },
+  {
+    path: '/icon-2x.png',
+    file: 'icon-2x.png',
+  },
+  {
+    path: '/icon-3x.png',
+    file: 'icon-3x.png',
+  },
+  {
+    path: '/icon-4x.png',
+    file: 'icon-4x.png',
+  },
+  {
+    path: '/manifest.json',
+    file: 'manifest.json',
+  },
+  {
     path: '/me',
     file: 'me.html',
     auth: auth
