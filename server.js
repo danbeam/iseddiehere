@@ -1,22 +1,21 @@
 (function(global) {
 
 const HERE_FILE = 'here.txt';
-const PASSWORD_FILE = 'password.txt';
-const SECRET_FILE = 'secret.txt';
 
 var app = require('express')();
 var server = require('http').Server(app);
+var port = process.env.PORT || 5000;
 var fs = require('fs');
 
 function read(file) {
   return fs.readFileSync(file, {encoding: 'utf8'}).trim();
 }
 
-const SECRET = read(SECRET_FILE);
+const SECRET = process.env.SECRET_MSG;
 
 function auth(req, res, next) {
   var user = require('basic-auth')(req);
-  if (user && user.pass == read(PASSWORD_FILE)) {
+  if (user && user.pass == process.env.PASS) {
     res.set('Set-Cookie', 'secret=' + SECRET);
     // TODO: re-generate a nonce here and require it for status changes.
     next();
@@ -50,8 +49,36 @@ function defined(arg) {
     file: 'app.js',
   },
   {
-    path: '/icon.png',
-    file: 'icon.png',
+    path: '/icon/notification-icon.png',
+    file: 'icon/notification-icon.png',
+  },
+  {
+    path: '/icon/icon-0-75x.png',
+    file: 'icon/icon-0-75x.png',
+  },
+  {
+    path: '/icon/icon-1x.png',
+    file: 'icon/icon-1x.png',
+  },
+  {
+    path: '/icon/icon-1-5x.png',
+    file: 'icon/icon-1-5x.png',
+  },
+  {
+    path: '/icon/icon-2x.png',
+    file: 'icon/icon-2x.png',
+  },
+  {
+    path: '/icon/icon-3x.png',
+    file: 'icon/icon-3x.png',
+  },
+  {
+    path: '/icon/icon-4x.png',
+    file: 'icon/icon-4x.png',
+  },
+  {
+    path: '/manifest.json',
+    file: 'manifest.json',
   },
   {
     path: '/me',
@@ -90,6 +117,6 @@ require('socket.io')(server).on('connect', function(socket) {
   });
 });
 
-server.listen(80);
+server.listen(port);
 
 })(this);
