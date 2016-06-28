@@ -9,6 +9,7 @@ $ git clone https://github.com/danbeam/iseddiehere.git
 and start the server:
 
 ```shell
+$ cd iseddiehere
 $ node server.js
 ```
 
