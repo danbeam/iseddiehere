@@ -13,7 +13,7 @@ $ cd iseddiehere
 $ node server.js
 ```
 
-and consider chaning this line:
+and consider changing this line:
 
 ```js
 server.listen(80);  // to 8080 or something to avoid conflicts
